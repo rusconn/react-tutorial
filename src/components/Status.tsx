@@ -1,9 +1,13 @@
 import React, { FunctionComponent } from "react";
 
-interface Props {
-  message: string;
-}
+import { useStatus } from "../hooks/useStatus";
 
-export const Status: FunctionComponent<Props> = (props) => (
-  <div className="status">{props.message}</div>
-);
+export const Status: FunctionComponent = () => {
+  const status = useStatus();
+
+  return (
+    <div className="status">
+      {status.message}
+    </div>
+  );
+};

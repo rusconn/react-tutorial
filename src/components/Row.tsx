@@ -1,23 +1,22 @@
 import React, { FunctionComponent } from "react";
 import range from "lodash/range";
+import { useReactiveVar } from "@apollo/client";
 
-import { MaybePlayer } from "../types";
+import { sizeVar } from "../cache";
 import { Square } from "./Square";
 
 interface Props {
-  size: number;
-  squares: MaybePlayer[];
-  onClick: (column: number) => void;
+  row: number;
 }
 
-export const Row: FunctionComponent<Props> = (props) => (
-  <div className="board-row">
-    {range(props.size).map((column) => (
-      <Square
-        key={column}
-        player={props.squares[column]}
-        onClick={() => props.onClick(column)}
-      />
-    ))}
-  </div>
-);
+export const Row: FunctionComponent<Props> = (props) => {
+  const size = useReactiveVar(sizeVar);
+
+  return (
+    <div className="board-row">
+      {range(size).map((column) => (
+        <Square key={column} nth={props.row * size + column} />
+      ))}
+    </div>
+  );
+};
